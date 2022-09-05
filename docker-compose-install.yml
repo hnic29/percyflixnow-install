@@ -57,4 +57,4 @@
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=${TZ}
+      - TZ=America/Denver
