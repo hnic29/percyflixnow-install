@@ -7,8 +7,8 @@
     restart: always
     image: plexinc/pms-docker
     volumes:
-      - docker/plex:/config
-      - docker/plex/Downloads/plex_tmp:/transcode
+      - /docker/plex:/config
+      - /docker/plex/Downloads/plex_tmp:/transcode
       - /media/media:/media
       - /docker/plex/shared:/shared
     ports:
