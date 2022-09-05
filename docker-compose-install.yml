@@ -40,3 +40,21 @@
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     command: --schedule "0 0 4 * * *" --cleanup
+
+# NZBGet – Usenet (NZB) Downloader (Alternative)
+  nzbget:
+    image: "linuxserver/nzbget"
+    hostname: nzbget
+    container_name: "nzbget"
+    volumes:
+      - /docker/sabnzbd:/config
+      - /Downloads:/downloads
+      - /Downloads/incomplete:/incomplete-downloads
+      - /docker/shared:/shared
+    ports:
+      - "6789:6789"
+    restart: always
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=${TZ}
