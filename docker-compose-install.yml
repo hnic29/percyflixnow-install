@@ -28,3 +28,15 @@
       - PLEX_UID=1000
       - PLEX_GID=1000
       - ADVERTISE_IP="http://SERVER-IP:32400/"
+      
+######### DOCKER RELATED ##########
+
+# Watchtower - Automatic Update of Containers/Apps
+  watchtower:
+    container_name: watchtower
+    hostname: watchtower
+    restart: always
+    image: v2tec/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --schedule "0 0 4 * * *" --cleanup
