@@ -1,0 +1,24 @@
+#!/bin/bash
+#
+# Title: PercyFlixNow (Reference Title File)
+# Authors: HNic
+# URL: https://percyflixnow.com
+# GNU: General Public License v3.0
+################################################################################
+
+[Unit]
+Description=PFMerger
+After=multi-user.target
+
+[Service]
+Type=simple
+User=0
+Group=0
+ExecStart=/bin/bash /opt/appdata/mediaguide/pfunion.sh
+ExecStop=/bin/fusermount -uzq /mnt/pfmerger
+TimeoutStopSec=60
+KillMode=process
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
