@@ -110,7 +110,7 @@ startInstall()
         #rclone install
         sudo curl https://rclone.org/install.sh | sudo bash
         
-        clear
+        #clear
         echo "#######################################################"
         echo "###         Preparing for RCLONE Configuation       ###"
         echo "#######################################################"
