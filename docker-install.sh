@@ -88,7 +88,7 @@ startInstall()
         echo "    2. Install Prerequisite Packages..."
         sleep 2s
 
-        sudo apt install curl wget git -y >> ~/docker-script-install.log 2>&1
+        sudo apt install apt-transport-https ca-certificates curl software-properties-common gnupg lsb-release curl wget git ncdu qemu-guest-agent neofetch -y >> ~/docker-script-install.log 2>&1
 
         echo "    3. Installing Docker-CE (Community Edition)..."
         sleep 2s
