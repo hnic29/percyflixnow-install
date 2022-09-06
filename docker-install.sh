@@ -89,12 +89,12 @@ startInstall()
         sleep 2s
 
         sudo rm -R  percyflixnow-install/
-        sudo mv ~/percyflixnow-install/gdrive.service  /etc/systemd/system/gdrive.service
-        sudo mv ~/percyflixnow-install/tdrive.service  /etc/systemd/system/tdrive.service
-        sudo mv ~/percyflixnow-install/pfunion.service /etc/systemd/system/pfunion.service
-        sudo mv ~/percyflixnow-install/pfunion.sh /opt/appdata/mediaguide/pfunion.sh
-        sudo mv ~/percyflixnow-install/server.hd.path /var/mediaguide/server.hd.path
-        sudo mv ~/percyflixnow-install/rclone.env /opt/appdata/mediaguide/rclone.env
+        sudo mv ~/percyflixnow-install/gdrive.service  /etc/systemd/system/gdrive.service/
+        sudo mv ~/percyflixnow-install/tdrive.service  /etc/systemd/system/tdrive.service/
+        sudo mv ~/percyflixnow-install/pfunion.service /etc/systemd/system/pfunion.service/
+        sudo mv ~/percyflixnow-install/pfunion.sh /opt/appdata/mediaguide/pfunion.sh/
+        sudo mv ~/percyflixnow-install/server.hd.path /var/mediaguide/server.hd.path/
+        sudo mv ~/percyflixnow-install/rclone.env /opt/appdata/mediaguide/rclone.env/
         
         sudo apt install apt-transport-https ca-certificates curl software-properties-common gnupg lsb-release csurl wget git ncdu qemu-guest-agent install build-essential module-assistant neofetch -y mergerfs fuse-source -y >> ~/docker-script-install.log 2>&1
         
