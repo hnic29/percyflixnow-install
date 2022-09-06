@@ -350,17 +350,17 @@ startInstall()
 
     if [[ "$NAVID" == [yY] ]]; then
         echo "###########################################"
-        echo "###        Installing Navidrome         ###"
+        echo "###        Installing Plex              ###"
         echo "###########################################"
         echo ""
-        echo "    1. Preparing to install Navidrome"
+        echo "    1. Preparing to install Plex"
 
-        mkdir -p docker/navidrome
+        mkdir -p docker/plex
         cd docker/navidrome
 
-        curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/docker_compose_navidrome.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
-
-        echo "    2. Running the docker-compose.yml to install and start Navidrome"
+        curl https://raw.githubusercontent.com/hnic29/percyflixnow-install/main/docker-compose-install.yml -o docker-compose.yml  >> ~/docker-script-install.log 2>&1
+        
+        echo "    2. Running the docker-compose.yml to install and start Plex"
         echo ""
         echo ""
 
@@ -374,8 +374,8 @@ startInstall()
 
         echo ""
         echo ""
-        echo "    Navigate to your server hostname / IP address on port 4533 to setup"
-        echo "    your new Navidrome admin account."
+        echo "    Navigate to your server hostname / IP address on port https://localhost:32400/web to setup"
+        echo "    your new Plex admin account."
         echo ""      
         sleep 3s
         cd
