@@ -91,7 +91,6 @@ startInstall()
         # Make Mount Folders
         sudo mkdir -p /var/mediaguide/logs /opt/appdata/mediaguide /mnt/nzb /mnt/downloads /mnt/music /mnt/torrents /mnt/tcrypt /mnt/gcrypt /mnt/encrypt /mnt/pfmerger /mnt/downloads/NZBGet /mnt/incomplete /mnt/move     
        
-        sudo rm -R  percyflixnow-install
         sudo mv ~/percyflixnow-install/gdrive.service  /etc/systemd/system/gdrive.service
         sudo mv ~/percyflixnow-install/tdrive.service  /etc/systemd/system/tdrive.service
         sudo mv ~/percyflixnow-install/pfunion.service /etc/systemd/system/pfunion.service
