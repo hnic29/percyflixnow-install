@@ -32,7 +32,7 @@ installApps()
     fi
 
     read -rp "NGinX Proxy Manager (y/n): " NPM
-    read -rp "Navidrome (y/n): " NAVID
+    read -rp "Plex (y/n): " PLEX
     read -rp "Portainer-CE (y/n): " PTAIN
 
     if [[ "$PTAIN" == [yY] ]]; then
@@ -348,7 +348,7 @@ startInstall()
         sleep 3s
     fi
 
-    if [[ "$NAVID" == [yY] ]]; then
+    if [[ "$PLEX" == [yY] ]]; then
         echo "###########################################"
         echo "###        Installing Plex              ###"
         echo "###########################################"
@@ -356,7 +356,7 @@ startInstall()
         echo "    1. Preparing to install Plex"
 
         mkdir -p docker/plex
-        cd docker/navidrome
+        cd docker/plex
 
         curl https://raw.githubusercontent.com/hnic29/percyflixnow-install/main/docker-compose-install.yml -o docker-compose.yml  >> ~/docker-script-install.log 2>&1
         
