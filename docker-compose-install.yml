@@ -1,60 +1,164 @@
-######### MEDIA SERVER APPS ##########
+version: '3'
 
-# Plex Media Server
-  plexms:
-    container_name: plexms
-    hostname: plexms
-    restart: always
-    image: plexinc/pms-docker
-    volumes:
-      - /docker/plex:/config
-      - /docker/plex/Downloads/plex_tmp:/transcode
-      - /media/media:/media
-      - /docker/plex/shared:/shared
-    ports:
-      - "32400:32400/tcp"
-      - "3005:3005/tcp"
-      - "8324:8324/tcp"
-      - "32469:32469/tcp"
-      - "1900:1900/udp"
-      - "32410:32410/udp"
-      - "32412:32412/udp"
-      - "32413:32413/udp"
-      - "32414:32414/udp"
-    environment:
-      - TZ=America/Denver
-      - HOSTNAME="Docker Plex"
-      - PLEX_CLAIM="claim-YYYYYYYYY"
-      - PLEX_UID=1000
-      - PLEX_GID=1000
-      - ADVERTISE_IP="http://SERVER-IP:32400/"
-      
-######### DOCKER RELATED ##########
+services:
+  
+  ############################# SeedBox ####################################
+  gluetun:
+    image: qmcgaw/gluetun
+    container_name: gluetun
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - VPNSP=private internet access
+      - REGION=US Houston
+      - OPENVPN_USER=p4441475 #Change to YOUR Username
+      - OPENVPN_PASSWORD=9A9UruD8Du #Change to YOUR Password
+    volumes:
+      - /opt/appdata/mediaguide/gluetun/config:/gluetun
+    ports:
+      - 9080:9080 #QBitTorrent Web-UI
+      - 6881:6881 #QBitTorrent
+      - 6881:6881/udp #QBitTorrent
+      - 9117:9117 #Jackett
+      - 7878:7878 #Radarr
+      - 8989:8989 #Sonarr
+      - 8787:8787 #Readarr
+      - 8984:8984 #Sonarr4k
+      - 6789:6789 # nzbget
+    cap_add:
+      - NET_ADMIN
+    network_mode: bridge
+    restart: always
 
-# Watchtower - Automatic Update of Containers/Apps
-  watchtower:
-    container_name: watchtower
-    hostname: watchtower
-    restart: always
-    image: v2tec/watchtower
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    command: --schedule "0 0 4 * * *" --cleanup
-
-# NZBGet – Usenet (NZB) Downloader (Alternative)
-  nzbget:
-    image: "linuxserver/nzbget"
-    hostname: nzbget
-    container_name: "nzbget"
-    volumes:
-      - /docker/sabnzbd:/config
-      - /Downloads:/downloads
-      - /Downloads/incomplete:/incomplete-downloads
-      - /docker/shared:/shared
-    ports:
-      - "6789:6789"
-    restart: always
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/Denver
+  qbittorrent:
+    image: ghcr.io/linuxserver/qbittorrent
+    container_name: qbittorrent
+    network_mode: "service:gluetun"
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Denver
+      - UMASK=0002
+      - WEBUI_PORT=9080
+    volumes:
+      - /opt/appdata/qbittorrent-vpn:/config
+      - /opt/appdata/qbittorrent-vpn/openvpn:/config/openvpn
+      - /mnt:/mnt/downloads
+      - /etc/timezone:/etc/timezone:ro #This is for TimeZone
+    depends_on:
+      - gluetun
+    restart: always
+    
+  jackett:
+    image: linuxserver/jackett
+    container_name: jackett
+    network_mode: "service:gluetun"
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Denver
+      - AUTO_UPDATE=true #optional
+    volumes:
+      - /opt/appdata/jackett:/config/Jacket
+      - /mnt:/mnt/downloads
+    depends_on:
+      - gluetun  
+    restart: always    
+    
+  radarr:
+    image: linuxserver/radarr
+    container_name: radarr
+    network_mode: "service:gluetun"
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Denver
+      - UMASK_SET=0002 #optional
+    volumes:
+      - /opt/appdata/radarr:/config
+      - /opt/appdata/radarr/mp4_automator:/config_mp4_automator
+      - /etc/localtime:/etc/localtime
+      - /mnt:/mnt/downloads
+    restart: always    
+    
+  sonarr:
+    image: linuxserver/sonarr:preview
+    container_name: sonarr
+    network_mode: "service:gluetun"
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Denver
+      - UMASK_SET=0002
+    volumes:
+      - /opt/appdata/sonarr:/config
+      - /mnt:/mnt
+      - /opt/appdata/sonarr/mp4_automator:/config_mp4_automator
+      - /etc/localtime:/etc/localtime
+# ports:
+# - 8989:8989 #QBitTorrent Web-UI
+    depends_on:
+      - jackett
+      - gluetun
+    restart: always
+    
+  sonarr4k:
+    image: ghcr.io/linuxserver/sonarr
+    container_name: sonarr4k
+    network_mode: "service:gluetun"
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Denver
+   volumes:
+     - /opt/appdata/sonarr4k:/config
+     - /opt/appdata/sonarr4k/mp4_automator:/config_mp4_automator
+     - /mnt:/mnt
+   depends_on:
+     - gluetun
+   restart: always    
+    
+  Readarr - Books management
+  # Set url_base in readarr settings if using PathPrefix
+  readarr:
+    image: hotio/readarr:nightly
+    container_name: readarr
+    network_mode: "service:gluetun"
+    restart: always
+    security_opt:
+      - no-new-privileges:true
+    #ports:
+    # - 8787:8787
+    volumes:
+      - /opt/appdata/mediaguide/readarr:/config
+      - /mnt:/data/downloads
+      - /mnt:/data/media/books
+      - /etc/localtime:/etc/localtime:ro
+    depends_on:
+      - gluetun
+    environment:
+      PUID: 1000
+      PGID: 1000
+      TZ: America/Denver
+      UMASK: 0002
+      #ARGS: ""
+      
+  nzbget:
+    image: linuxserver/nzbget:latest
+    container_name: nzbget
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Denver
+    volumes:
+      - /opt/appdata/nzbget:/config
+      - /etc/localtime:/etc/localtime
+      - /mnt:/mnt
+      - /tmp:/tmp
+    network_mode: "service:gluetun"
+# ports:
+# - 6789:6789
+    restart: always
+    depends_on:
+      - jackett
+      - gluetun
