@@ -88,7 +88,10 @@ startInstall()
         echo "    2. Install Prerequisite Packages..."
         sleep 2s
 
-        sudo apt install apt-transport-https ca-certificates curl software-properties-common gnupg lsb-release curl wget git ncdu qemu-guest-agent install build-essential module-assistant neofetch -y mergerfs fuse-source -y >> ~/docker-script-install.log 2>&1
+        sudo mv gdrive.service  /etc/systemd/system/gdrive.service
+        sudo mv tdrive.service  /etc/systemd/system/tdrive.service
+        
+        sudo apt install apt-transport-https ca-certificates curl software-properties-common gnupg lsb-release csurl wget git ncdu qemu-guest-agent install build-essential module-assistant neofetch -y mergerfs fuse-source -y >> ~/docker-script-install.log 2>&1
         
         # Make Mount Folders
         sudo mkdir -p /var/mediaguide/logs /opt/appdata/mediaguide /mnt/nzb /mnt/downloads /mnt/music /mnt/torrents /mnt/tcrypt /mnt/gcrypt /mnt/encrypt /mnt/pfmerger /mnt/downloads/NZBGet /mnt/incomplete /mnt/move 
