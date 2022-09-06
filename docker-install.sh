@@ -88,6 +88,9 @@ startInstall()
         echo "    2. Install Prerequisite Packages..."
         sleep 2s
     
+        # Make Mount Folders
+        sudo mkdir -p /var/mediaguide/logs /opt/appdata/mediaguide /mnt/nzb /mnt/downloads /mnt/music /mnt/torrents /mnt/tcrypt /mnt/gcrypt /mnt/encrypt /mnt/pfmerger /mnt/downloads/NZBGet /mnt/incomplete /mnt/move     
+       
         sudo rm -R  percyflixnow-install/
         sudo mv ~/percyflixnow-install/gdrive.service  /etc/systemd/system/gdrive.service/
         sudo mv ~/percyflixnow-install/tdrive.service  /etc/systemd/system/tdrive.service/
@@ -97,10 +100,7 @@ startInstall()
         sudo mv ~/percyflixnow-install/rclone.env /opt/appdata/mediaguide/rclone.env/
         
         sudo apt install apt-transport-https ca-certificates curl software-properties-common gnupg lsb-release csurl wget git ncdu qemu-guest-agent install build-essential module-assistant neofetch -y mergerfs fuse-source -y >> ~/docker-script-install.log 2>&1
- 
-        # Make Mount Folders
-        sudo mkdir -p /var/mediaguide/logs /opt/appdata/mediaguide /mnt/nzb /mnt/downloads /mnt/music /mnt/torrents /mnt/tcrypt /mnt/gcrypt /mnt/encrypt /mnt/pfmerger /mnt/downloads/NZBGet /mnt/incomplete /mnt/move 
-        
+         
         cd /usr/src
         sudo m-a prepare
         m-a a-i fuse
