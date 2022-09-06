@@ -92,7 +92,15 @@ startInstall()
         
         # Make Mount Folders
         sudo mkdir -p /var/mediaguide/logs /opt/appdata/mediaguide /mnt/nzb /mnt/downloads /mnt/music /mnt/torrents /mnt/tcrypt /mnt/gcrypt /mnt/encrypt /mnt/pfmerger /mnt/downloads/NZBGet /mnt/incomplete /mnt/move 
-
+        
+        #rclone install
+        sudo curl https://rclone.org/install.sh | sudo bash
+        
+        sudo rclone config
+        
+        rclone config     
+        
+        
         echo "    3. Installing Docker-CE (Community Edition)..."
         sleep 2s
 
