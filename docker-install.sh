@@ -96,6 +96,8 @@ startInstall()
         #rclone install
         sudo curl https://rclone.org/install.sh | sudo bash
         
+        echo  ####################   " Now let's configure RCLONE gdrive and tdrive "   ################
+         
         sudo rclone config
         
         rclone config     
