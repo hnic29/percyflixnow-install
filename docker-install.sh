@@ -100,11 +100,11 @@ startInstall()
         
         sudo apt install apt-transport-https ca-certificates curl software-properties-common gnupg lsb-release csurl wget git ncdu qemu-guest-agent install build-essential module-assistant neofetch -y mergerfs fuse-source -y >> ~/docker-script-install.log 2>&1
          
-        cd /usr/src
-        sudo m-a prepare
-        m-a a-i fuse
-        depmod -ae $(uname -r)
-        modprobe fuse
+        #cd /usr/src
+        #sudo m-a prepare
+        #m-a a-i fuse
+        #depmod -ae $(uname -r)
+        #modprobe fuse
         
         #rclone install
         sudo curl https://rclone.org/install.sh | sudo bash
