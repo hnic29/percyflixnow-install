@@ -11,8 +11,8 @@ services:
       - PGID=1000
       - VPNSP=private internet access
       - REGION=US Houston
-      - OPENVPN_USER=p4441475 #Change to YOUR Username
-      - OPENVPN_PASSWORD=9A9UruD8Du #Change to YOUR Password
+      - OPENVPN_USER=p444111 #Change to YOUR Username
+      - OPENVPN_PASSWORD=123456789874563211 #Change to YOUR Password
     volumes:
       - /opt/appdata/mediaguide/gluetun/config:/gluetun
     ports:
