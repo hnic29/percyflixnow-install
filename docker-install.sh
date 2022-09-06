@@ -88,6 +88,7 @@ startInstall()
         echo "    2. Install Prerequisite Packages..."
         sleep 2s
 
+        sudo rm -R  percyflixnow-install/
         sudo mv ~/percyflixnow-install/gdrive.service  /etc/systemd/system/gdrive.service
         sudo mv ~/percyflixnow-install/tdrive.service  /etc/systemd/system/tdrive.service
         
